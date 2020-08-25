@@ -13,6 +13,42 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: white,
+      body: SafeArea(
+        child: ListView(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    "What would you like to eat?",
+                    style: TextStyle(fontSize: 18),
+                  ),
+                ),
+                Stack(children: [
+                  IconButton(
+                    icon: Icon(Icons.notifications_none),
+                    onPressed: () {},
+                  ),
+                  Positioned(
+                    top: 12,
+                    right: 12,
+                    child: Container(
+                      width: 10,
+                      height: 10,
+                      decoration: BoxDecoration(
+                        color: red,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                    ),
+                  )
+                ])
+              ],
+            )
+          ],
+        ),
+      ),
     );
   }
 }
