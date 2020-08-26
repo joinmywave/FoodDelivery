@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:food_delivery/helpers/style.dart';
 import 'package:food_delivery/widgets/categories.dart';
 import 'package:food_delivery/widgets/custom_text.dart';
+import 'package:food_delivery/widgets/popular_food.dart';
 
 class Home extends StatefulWidget {
   Home({Key key}) : super(key: key);
@@ -83,6 +84,15 @@ class _HomeState extends State<Home> {
               height: 5,
             ),
             Categories(),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: CustomText(
+                text: "Popular Foods",
+                size: 20,
+                color: grey,
+              ),
+            ),
+            PopularFood(),
           ],
         ),
       ),
