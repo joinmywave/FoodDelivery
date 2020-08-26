@@ -96,6 +96,34 @@ class _HomeState extends State<Home> {
           ],
         ),
       ),
+      bottomNavigationBar: Container(
+        color: white,
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Image.asset(
+                "images/home.png",
+                width: 26,
+                height: 26,
+                color: red,
+              ),
+              Image.asset(
+                "images/target.png",
+                width: 26,
+                height: 26,
+              ),
+              Image.asset(
+                "images/shopping-bag.png",
+                width: 26,
+                height: 26,
+              ),
+              Image.asset("images/avatar.png", width: 26, height: 26)
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
