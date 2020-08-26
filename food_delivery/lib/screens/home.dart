@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:food_delivery/helpers/style.dart';
 import 'package:food_delivery/widgets/categories.dart';
 import 'package:food_delivery/widgets/custom_text.dart';
+import 'package:food_delivery/widgets/featured_food.dart';
 import 'package:food_delivery/widgets/popular_food.dart';
 
 class Home extends StatefulWidget {
@@ -93,6 +94,7 @@ class _HomeState extends State<Home> {
               ),
             ),
             PopularFood(),
+            FeaturedFood(),
           ],
         ),
       ),
