@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery/helpers/style.dart';
+import 'package:food_delivery/widgets/botttom_navigation_icon.dart';
 import 'package:food_delivery/widgets/categories.dart';
 import 'package:food_delivery/widgets/custom_text.dart';
 import 'package:food_delivery/widgets/featured_food.dart';
@@ -105,23 +106,10 @@ class _HomeState extends State<Home> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Image.asset(
-                "images/home.png",
-                width: 26,
-                height: 26,
-                color: red,
-              ),
-              Image.asset(
-                "images/target.png",
-                width: 26,
-                height: 26,
-              ),
-              Image.asset(
-                "images/shopping-bag.png",
-                width: 26,
-                height: 26,
-              ),
-              Image.asset("images/avatar.png", width: 26, height: 26)
+              BottomNavIcon(image: "home.png", name: "Home"),
+              BottomNavIcon(image: "target.png", name: "Near By"),
+              BottomNavIcon(image: "shopping-bag.png", name: "Bag"),
+              BottomNavIcon(image: "avatar.png", name: "Account"),
             ],
           ),
         ),
