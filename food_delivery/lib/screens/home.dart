@@ -100,9 +100,10 @@ class _HomeState extends State<Home> {
         ),
       ),
       bottomNavigationBar: Container(
+        height: 85,
         color: white,
         child: Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(10.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
