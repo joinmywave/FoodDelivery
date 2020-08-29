@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:food_delivery/helpers/style.dart';
 import 'package:food_delivery/models/product.dart';
 import 'package:food_delivery/widgets/custom_text.dart';
+import 'package:food_delivery/widgets/like_widget.dart';
 
 class ProductDetails extends StatefulWidget {
   final Product product;
@@ -50,15 +51,53 @@ class _ProductDetailsState extends State<ProductDetails> {
                         },
                       ),
                       Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Image.asset(
-                          "images/shopping-bag.png",
-                          width: 25,
-                          height: 25,
+                        padding: const EdgeInsets.only(right: 8.0),
+                        child: Stack(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Image.asset(
+                                "images/shopping-bag.png",
+                                width: 25,
+                                height: 25,
+                              ),
+                            ),
+                            Positioned(
+                              right: 5,
+                              bottom: 0,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: white,
+                                  borderRadius: BorderRadius.circular(10),
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: grey,
+                                        offset: Offset(2, 3),
+                                        blurRadius: 3),
+                                  ],
+                                ),
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.only(left: 4, right: 4),
+                                  child: CustomText(
+                                    text: "2",
+                                    color: red,
+                                    size: 14,
+                                    weight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
                         ),
                       )
                     ],
                   ),
+                  Positioned(
+                    right: 14,
+                    bottom: 14,
+                    child: LikeWidget(),
+                  )
                 ],
               ),
             )
