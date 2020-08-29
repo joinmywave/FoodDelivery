@@ -23,16 +23,43 @@ class _ProductDetailsState extends State<ProductDetails> {
           children: [
             Container(
               height: 300,
-              child: Carousel(
-                images: [
-                  AssetImage('images/${widget.product.image}'),
-                  AssetImage('images/${widget.product.image}'),
-                  AssetImage('images/${widget.product.image}')
+              child: Stack(
+                children: [
+                  Carousel(
+                    images: [
+                      AssetImage('images/${widget.product.image}'),
+                      AssetImage('images/${widget.product.image}'),
+                      AssetImage('images/${widget.product.image}')
+                    ],
+                    dotBgColor: white,
+                    dotColor: grey,
+                    dotIncreasedColor: red,
+                    dotIncreaseSize: 1.2,
+                    autoplay: false,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      IconButton(
+                        icon: Icon(
+                          Icons.arrow_back_ios,
+                          color: black,
+                        ),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Image.asset(
+                          "images/shopping-bag.png",
+                          width: 25,
+                          height: 25,
+                        ),
+                      )
+                    ],
+                  ),
                 ],
-                dotBgColor: white,
-                dotColor: grey,
-                dotIncreasedColor: red,
-                dotIncreaseSize: 1.2,
               ),
             )
           ],
