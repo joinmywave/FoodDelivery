@@ -46,7 +46,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   child: TextFormField(
                     decoration: InputDecoration(
                         border: InputBorder.none,
-                        hintText: "Username",
+                        hintText: "Name",
                         icon: Icon(Icons.person)),
                   ),
                 ),
@@ -63,7 +63,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   child: TextFormField(
                     decoration: InputDecoration(
                         border: InputBorder.none,
-                        hintText: "Emails",
+                        hintText: "Email",
                         icon: Icon(Icons.email)),
                   ),
                 ),
@@ -121,7 +121,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   CustomText(
-                    text: "login",
+                    text: "Login",
                     size: 20,
                   ),
                 ],
