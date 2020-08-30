@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery/helpers/screen_navigation.dart';
 import 'package:food_delivery/helpers/style.dart';
+import 'package:food_delivery/screens/login_screen.dart';
 import 'package:food_delivery/widgets/botttom_navigation_icon.dart';
 import 'package:food_delivery/widgets/categories.dart';
 import 'package:food_delivery/widgets/custom_text.dart';
@@ -121,7 +122,13 @@ class _HomeState extends State<Home> {
                   onTap: () {
                     navigateTo(context, Cart());
                   }),
-              BottomNavIcon(image: "avatar.png", name: "Account"),
+              BottomNavIcon(
+                image: "avatar.png",
+                name: "Account",
+                onTap: () {
+                  navigateTo(context, LoginScreen());
+                },
+              ),
             ],
           ),
         ),
