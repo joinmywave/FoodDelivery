@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery/helpers/screen_navigation.dart';
 import 'package:food_delivery/helpers/style.dart';
 import 'package:food_delivery/widgets/botttom_navigation_icon.dart';
 import 'package:food_delivery/widgets/categories.dart';
 import 'package:food_delivery/widgets/custom_text.dart';
 import 'package:food_delivery/widgets/featured_food.dart';
 import 'package:food_delivery/widgets/popular_food.dart';
+
+import 'cart.dart';
 
 class Home extends StatefulWidget {
   Home({Key key}) : super(key: key);
@@ -107,9 +110,17 @@ class _HomeState extends State<Home> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              BottomNavIcon(image: "home.png", name: "Home"),
+              BottomNavIcon(
+                image: "home.png",
+                name: "Home",
+              ),
               BottomNavIcon(image: "target.png", name: "Near By"),
-              BottomNavIcon(image: "shopping-bag.png", name: "Bag"),
+              BottomNavIcon(
+                  image: "shopping-bag.png",
+                  name: "Bag",
+                  onTap: () {
+                    navigateTo(context, Cart());
+                  }),
               BottomNavIcon(image: "avatar.png", name: "Account"),
             ],
           ),
