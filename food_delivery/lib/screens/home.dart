@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery/helpers/screen_navigation.dart';
 import 'package:food_delivery/helpers/style.dart';
+import 'package:food_delivery/providers/auth.dart';
 import 'package:food_delivery/screens/login_screen.dart';
 import 'package:food_delivery/widgets/botttom_navigation_icon.dart';
 import 'package:food_delivery/widgets/categories.dart';
 import 'package:food_delivery/widgets/custom_text.dart';
 import 'package:food_delivery/widgets/featured_food.dart';
 import 'package:food_delivery/widgets/popular_food.dart';
+import 'package:provider/provider.dart';
 
 import 'cart.dart';
 
@@ -20,7 +22,102 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
+    final authProvider = Provider.of<AuthProvider>(context);
+
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: white,
+        iconTheme: IconThemeData(color: black),
+        elevation: 0.5,
+        title: CustomText(text: "Food Deliver App"),
+        actions: <Widget>[
+          Stack(
+            children: <Widget>[
+              IconButton(
+                icon: Icon(Icons.shopping_cart),
+                onPressed: () {},
+              ),
+              Positioned(
+                top: 12,
+                right: 12,
+                child: Container(
+                  height: 10,
+                  width: 10,
+                  decoration: BoxDecoration(
+                      color: green, borderRadius: BorderRadius.circular(20.0)),
+                ),
+              ),
+            ],
+          ),
+          Stack(
+            children: <Widget>[
+              IconButton(
+                icon: Icon(Icons.notifications),
+                onPressed: () {},
+              ),
+              Positioned(
+                top: 12,
+                right: 12,
+                child: Container(
+                  height: 10,
+                  width: 10,
+                  decoration: BoxDecoration(
+                      color: green, borderRadius: BorderRadius.circular(20.0)),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+      drawer: Drawer(
+        child: ListView(
+          children: <Widget>[
+            UserAccountsDrawerHeader(
+              decoration: BoxDecoration(color: primary),
+              accountName: CustomText(
+                text: authProvider.userModel?.name,
+                color: white,
+                weight: FontWeight.bold,
+                size: 18,
+              ),
+              accountEmail: CustomText(
+                text: authProvider.userModel?.email,
+                color: white,
+              ),
+            ),
+            ListTile(
+              onTap: () {},
+              leading: Icon(Icons.home),
+              title: CustomText(text: "Home"),
+            ),
+            ListTile(
+              onTap: () {},
+              leading: Icon(Icons.fastfood),
+              title: CustomText(text: "Favourite Food"),
+            ),
+            ListTile(
+              onTap: () {},
+              leading: Icon(Icons.restaurant),
+              title: CustomText(text: "Favourite restaurants"),
+            ),
+            ListTile(
+              onTap: () {},
+              leading: Icon(Icons.bookmark_border),
+              title: CustomText(text: "My orders"),
+            ),
+            ListTile(
+              onTap: () {},
+              leading: Icon(Icons.shopping_cart),
+              title: CustomText(text: "Cart"),
+            ),
+            ListTile(
+              onTap: () {},
+              leading: Icon(Icons.settings),
+              title: CustomText(text: "Settings"),
+            ),
+          ],
+        ),
+      ),
       backgroundColor: white,
       body: SafeArea(
         child: ListView(
@@ -35,24 +132,6 @@ class _HomeState extends State<Home> {
                     size: 18,
                   ),
                 ),
-                Stack(children: [
-                  IconButton(
-                    icon: Icon(Icons.notifications_none),
-                    onPressed: () {},
-                  ),
-                  Positioned(
-                    top: 12,
-                    right: 12,
-                    child: Container(
-                      width: 10,
-                      height: 10,
-                      decoration: BoxDecoration(
-                        color: red,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                    ),
-                  )
-                ])
               ],
             ),
             SizedBox(
@@ -62,10 +141,11 @@ class _HomeState extends State<Home> {
               padding: const EdgeInsets.all(8.0),
               child: Container(
                   decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
                     color: white,
                     boxShadow: [
                       BoxShadow(
-                          color: Colors.grey[300],
+                          color: Colors.grey[400],
                           offset: Offset(1, 1),
                           blurRadius: 4),
                     ],

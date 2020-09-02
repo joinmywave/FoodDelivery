@@ -5,29 +5,7 @@ import 'package:food_delivery/models/product.dart';
 import 'package:food_delivery/screens/product_details.dart';
 import 'package:food_delivery/widgets/custom_text.dart';
 
-List<Product> productList = [
-  Product(
-      name: "Cereals",
-      price: 9.99,
-      rating: 4.2,
-      vendor: "GoodFoods",
-      favourite: true,
-      image: "1.jpg"),
-  Product(
-      name: "Tacos",
-      price: 5.99,
-      rating: 4.5,
-      vendor: "GoodFoods",
-      favourite: false,
-      image: "5.jpg"),
-  Product(
-      name: "Falafel",
-      price: 7.99,
-      rating: 5.0,
-      vendor: "GoodFoods",
-      favourite: false,
-      image: "2.jpg"),
-];
+List<ProductModel> productList = [];
 
 class PopularFood extends StatelessWidget {
   const PopularFood({Key key}) : super(key: key);

@@ -6,7 +6,7 @@ import 'package:food_delivery/widgets/custom_text.dart';
 import 'package:food_delivery/widgets/like_widget.dart';
 
 class ProductDetails extends StatefulWidget {
-  final Product product;
+  final ProductModel product;
 
   ProductDetails({this.product});
 

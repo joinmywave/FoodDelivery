@@ -11,13 +11,7 @@ class Cart extends StatefulWidget {
 }
 
 class _CartState extends State<Cart> {
-  Product product = Product(
-      name: "Pizza",
-      price: 20.0,
-      rating: 4.3,
-      vendor: "Papa's Pizza",
-      favourite: false,
-      image: "5.jpg");
+  ProductModel product;
   @override
   Widget build(BuildContext context) {
     return Scaffold(

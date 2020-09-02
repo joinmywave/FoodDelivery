@@ -57,7 +57,9 @@ class AuthProvider with ChangeNotifier {
         _firestore.collection('users').doc(result.user.uid).set({
           'name': name.text.trim(),
           'email': email.text.trim(),
-          'uid': result.user.uid
+          'uid': result.user.uid,
+          "favouriteFood": [],
+          "favouriteRestaurant": []
         });
       });
       return true;

@@ -4,14 +4,7 @@ import 'package:food_delivery/models/category.dart';
 
 import 'custom_text.dart';
 
-List<Category> categoriesList = [
-  Category(name: "Salad", image: "salad.png"),
-  Category(name: "Steak", image: "steak.png"),
-  Category(name: "Seafood", image: "fish.png"),
-  Category(name: "Fast Food", image: "sandwich.png"),
-  Category(name: "Deserts", image: "ice-cream.png"),
-  Category(name: "Beer", image: "pint.png"),
-];
+List<CategoryModel> categoriesList = [];
 
 class Categories extends StatelessWidget {
   const Categories({Key key}) : super(key: key);
