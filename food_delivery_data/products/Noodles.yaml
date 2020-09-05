@@ -1,0 +1,10 @@
+Id: 2
+rating: 4.3
+restaurantId: 2
+name: Noodles
+restaurant: China Palace Restaurant
+featured: true
+category: Chinese
+rates: 1
+price: 5.99
+image: "https://firebasestorage.googleapis.com/v0/b/fooddelivery-e760e.appspot.com/o/chinese.jpg?alt=media&token=10b48957-d95a-4fa8-b728-06f1e627d172"

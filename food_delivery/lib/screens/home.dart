@@ -6,7 +6,7 @@ import 'package:food_delivery/screens/login_screen.dart';
 import 'package:food_delivery/widgets/botttom_navigation_icon.dart';
 import 'package:food_delivery/widgets/categories.dart';
 import 'package:food_delivery/widgets/custom_text.dart';
-import 'package:food_delivery/widgets/featured_food.dart';
+import 'package:food_delivery/widgets/featured_restaurant.dart';
 import 'package:food_delivery/widgets/popular_food.dart';
 import 'package:provider/provider.dart';
 
@@ -179,7 +179,7 @@ class _HomeState extends State<Home> {
               ),
             ),
             PopularFood(),
-            FeaturedFood(),
+            FeaturedRestaurant(),
           ],
         ),
       ),

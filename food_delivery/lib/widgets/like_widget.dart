@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:food_delivery/helpers/style.dart';
 
 class LikeWidget extends StatelessWidget {
+  final IconData icon;
+
+  const LikeWidget({this.icon});
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -17,7 +21,7 @@ class LikeWidget extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(4.0),
           child: Icon(
-            Icons.favorite,
+            icon,
             color: white,
             size: 18,
           ),

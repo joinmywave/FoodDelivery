@@ -1,0 +1,10 @@
+Id: 3
+rating: 4.1
+restaurantId: 3
+name: Tacos
+restaurant: Falafel Factory
+featured: true
+category: Fastfood
+rates: 1
+price: 3.99
+image: "https://firebasestorage.googleapis.com/v0/b/fooddelivery-e760e.appspot.com/o/5.jpg?alt=media&token=70080408-494b-44d8-a32e-2056feb7cf4b"

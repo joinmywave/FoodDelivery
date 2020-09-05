@@ -1,6 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:food_delivery/providers/auth.dart';
+import 'package:food_delivery/providers/category.dart';
+import 'package:food_delivery/providers/product.dart';
+import 'package:food_delivery/providers/restaurant.dart';
 import 'package:food_delivery/screens/home.dart';
 import 'package:food_delivery/screens/login_screen.dart';
 import 'package:food_delivery/widgets/loading.dart';
@@ -11,7 +14,12 @@ Future<void> main() async {
   await Firebase.initializeApp();
   runApp(MultiProvider(
       providers: [
-        ChangeNotifierProvider.value(value: AuthProvider.initialize())
+        ChangeNotifierProvider.value(value: AuthProvider.initialize()),
+        ChangeNotifierProvider.value(
+          value: CategoryProvider.initialize(),
+        ),
+        ChangeNotifierProvider.value(value: RestaurantProvider.initialize()),
+        ChangeNotifierProvider.value(value: ProductProvider.initialize())
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
