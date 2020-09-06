@@ -95,7 +95,7 @@ class CategoryScreen extends StatelessWidget {
                 .map((product) => GestureDetector(
                       onTap: () {},
                       child: ProductWidget(
-                        productModel: product,
+                        product: product,
                       ),
                     ))
                 .toList(),

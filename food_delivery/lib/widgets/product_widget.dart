@@ -10,9 +10,9 @@ import 'package:transparent_image/transparent_image.dart';
 import 'custom_text.dart';
 
 class ProductWidget extends StatelessWidget {
-  final ProductModel productModel;
+  final ProductModel product;
 
-  const ProductWidget({@required this.productModel});
+  const ProductWidget({@required this.product});
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +43,7 @@ class ProductWidget extends StatelessWidget {
                 ),
                 child: FadeInImage.memoryNetwork(
                   placeholder: kTransparentImage,
-                  image: productModel.image,
+                  image: product.image,
                   height: 160,
                   fit: BoxFit.fill,
                   width: double.infinity,
@@ -59,7 +59,7 @@ class ProductWidget extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: CustomText(
-                          text: productModel.name,
+                          text: product.name,
                         ),
                       ),
                       Padding(
@@ -104,14 +104,14 @@ class ProductWidget extends StatelessWidget {
                         ),
                         GestureDetector(
                           child: CustomText(
-                            text: productModel.restaurant,
+                            text: product.restaurant,
                             color: primary,
                             weight: FontWeight.w300,
                             size: 14,
                           ),
                           onTap: () async {
                             await restaurantProvider
-                                .loadRestaurantById(productModel.restaurantId);
+                                .loadRestaurantById(product.restaurantId);
                             navigateTo(
                                 context,
                                 RestaurantScreen(
@@ -131,7 +131,7 @@ class ProductWidget extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.only(left: 8.0),
                             child: CustomText(
-                              text: productModel.rating.toString(),
+                              text: product.rating.toString(),
                               color: grey,
                               size: 14.0,
                             ),
@@ -164,7 +164,7 @@ class ProductWidget extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(right: 8.0),
                         child: CustomText(
-                          text: "\$${productModel.price}",
+                          text: "\$${product.price}",
                           weight: FontWeight.bold,
                         ),
                       ),

@@ -197,7 +197,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
 //                changeScreen(context, RestaurantScreen(restaurantModel: item,));
                       },
                       child: ProductWidget(
-                        productModel: product,
+                        product: product,
                       ),
                     ))
                 .toList(),

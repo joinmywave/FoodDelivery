@@ -3,7 +3,11 @@ import 'package:food_delivery/helpers/screen_navigation.dart';
 import 'package:food_delivery/helpers/style.dart';
 import 'package:food_delivery/providers/app.dart';
 import 'package:food_delivery/providers/auth.dart';
+import 'package:food_delivery/providers/product.dart';
+import 'package:food_delivery/providers/restaurant.dart';
 import 'package:food_delivery/screens/login_screen.dart';
+import 'package:food_delivery/screens/product_Search.dart';
+import 'package:food_delivery/screens/restaurants_search.dart';
 import 'package:food_delivery/widgets/botttom_navigation_icon.dart';
 import 'package:food_delivery/widgets/categories.dart';
 import 'package:food_delivery/widgets/custom_text.dart';
@@ -26,6 +30,8 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     final authProvider = Provider.of<AuthProvider>(context);
     final appProvider = Provider.of<AppProvider>(context);
+    final productProvider = Provider.of<ProductProvider>(context);
+    final restaurantProvider = Provider.of<RestaurantProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -152,32 +158,75 @@ class _HomeState extends State<Home> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: white,
-                          boxShadow: [
-                            BoxShadow(
-                                color: Colors.grey[400],
-                                offset: Offset(1, 1),
-                                blurRadius: 4),
-                          ],
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: white,
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.grey[400],
+                              offset: Offset(1, 1),
+                              blurRadius: 4),
+                        ],
+                      ),
+                      child: ListTile(
+                        leading: Icon(
+                          Icons.search,
+                          color: Colors.red,
                         ),
-                        child: ListTile(
-                          leading: Icon(
-                            Icons.search,
-                            color: Colors.red,
-                          ),
-                          title: TextField(
-                            decoration: InputDecoration(
-                                hintText: "Find food and restaurant",
-                                border: InputBorder.none),
-                          ),
-                          trailing: Icon(
-                            Icons.filter_list,
-                            color: Colors.red,
-                          ),
-                        )),
+                        title: TextField(
+                          onSubmitted: (pattern) async {
+                            appProvider.changeLoading();
+                            if (appProvider.search == SearchBy.PRODUCTS) {
+                              await productProvider.search(pattern);
+                              navigateTo(context, ProductSearchScreen());
+                            } else {
+                              await restaurantProvider.search(pattern);
+                              navigateTo(context, RestaurantsSearchScreen());
+                            }
+                            appProvider.changeLoading();
+                          },
+                          decoration: InputDecoration(
+                              hintText: "Find food and restaurant",
+                              border: InputBorder.none),
+                        ),
+                      ),
+                    ),
                   ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      CustomText(
+                        text: "Search by:",
+                        color: grey,
+                        weight: FontWeight.w300,
+                      ),
+                      DropdownButton<String>(
+                        value: appProvider.filterBy,
+                        style: TextStyle(
+                            color: primary, fontWeight: FontWeight.w300),
+                        icon: Icon(
+                          Icons.filter_list,
+                          color: primary,
+                        ),
+                        elevation: 0,
+                        onChanged: (value) {
+                          if (value == "Products") {
+                            appProvider.changeSearchBy(
+                                newSearchBy: SearchBy.PRODUCTS);
+                          } else {
+                            appProvider.changeSearchBy(
+                                newSearchBy: SearchBy.RESTAURANTS);
+                          }
+                        },
+                        items: <String>["Products", "Restaurants"]
+                            .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                              value: value, child: Text(value));
+                        }).toList(),
+                      ),
+                    ],
+                  ),
+                  Divider(),
                   SizedBox(
                     height: 5,
                   ),

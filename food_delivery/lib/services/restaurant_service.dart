@@ -26,4 +26,22 @@ class RestaurantService {
       _firestore.collection(collection).doc(id.toString()).get().then((doc) {
         return RestaurantModel.fromSnapshot(doc);
       });
+
+  Future<List<RestaurantModel>> searchRestaurant({String restaurantName}) {
+    String searchkey =
+        restaurantName[0].toUpperCase() + restaurantName.substring(1);
+    return _firestore
+        .collection(collection)
+        .orderBy("name")
+        .startAt([searchkey])
+        .endAt([searchkey + '\uf8ff'])
+        .get()
+        .then((result) {
+          List<RestaurantModel> restaurants = [];
+          for (DocumentSnapshot restaurant in result.docs) {
+            restaurants.add(RestaurantModel.fromSnapshot(restaurant));
+          }
+          return restaurants;
+        });
+  }
 }

@@ -51,4 +51,20 @@ class ProductService {
         }
         return products;
       });
+  Future<List<ProductModel>> searchProducts({String productName}) {
+    String searchkey = productName[0].toUpperCase() + productName.substring(1);
+    return _firestore
+        .collection(collection)
+        .orderBy("name")
+        .startAt([searchkey])
+        .endAt([searchkey + '\uf8ff'])
+        .get()
+        .then((result) {
+          List<ProductModel> products = [];
+          for (DocumentSnapshot product in result.docs) {
+            products.add(ProductModel.fromSnapshot(product));
+          }
+          return products;
+        });
+  }
 }
