@@ -22,8 +22,8 @@ class RestaurantService {
         return restaurants;
       });
 
-  Future<RestaurantModel> getRestaurantById(String id) =>
-      _firestore.collection(collection).doc(id).get().then((doc) {
+  Future<RestaurantModel> getRestaurantById(int id) =>
+      _firestore.collection(collection).doc(id.toString()).get().then((doc) {
         return RestaurantModel.fromSnapshot(doc);
       });
 }

@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery/helpers/screen_navigation.dart';
 import 'package:food_delivery/helpers/style.dart';
+import 'package:food_delivery/providers/app.dart';
 import 'package:food_delivery/providers/auth.dart';
 import 'package:food_delivery/screens/login_screen.dart';
 import 'package:food_delivery/widgets/botttom_navigation_icon.dart';
 import 'package:food_delivery/widgets/categories.dart';
 import 'package:food_delivery/widgets/custom_text.dart';
 import 'package:food_delivery/widgets/featured_restaurant.dart';
+import 'package:food_delivery/widgets/loading.dart';
 import 'package:food_delivery/widgets/popular_food.dart';
 import 'package:provider/provider.dart';
 
@@ -23,6 +25,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     final authProvider = Provider.of<AuthProvider>(context);
+    final appProvider = Provider.of<AppProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -119,70 +122,79 @@ class _HomeState extends State<Home> {
         ),
       ),
       backgroundColor: white,
-      body: SafeArea(
-        child: ListView(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: CustomText(
-                    text: "What would you like to eat?",
-                    size: 18,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: white,
-                    boxShadow: [
-                      BoxShadow(
-                          color: Colors.grey[400],
-                          offset: Offset(1, 1),
-                          blurRadius: 4),
+      body: appProvider.isLoading
+          ? Container(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Loading(),
+                ],
+              ),
+            )
+          : SafeArea(
+              child: ListView(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: CustomText(
+                          text: "What would you like to eat?",
+                          size: 18,
+                        ),
+                      ),
                     ],
                   ),
-                  child: ListTile(
-                    leading: Icon(
-                      Icons.search,
-                      color: Colors.red,
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: white,
+                          boxShadow: [
+                            BoxShadow(
+                                color: Colors.grey[400],
+                                offset: Offset(1, 1),
+                                blurRadius: 4),
+                          ],
+                        ),
+                        child: ListTile(
+                          leading: Icon(
+                            Icons.search,
+                            color: Colors.red,
+                          ),
+                          title: TextField(
+                            decoration: InputDecoration(
+                                hintText: "Find food and restaurant",
+                                border: InputBorder.none),
+                          ),
+                          trailing: Icon(
+                            Icons.filter_list,
+                            color: Colors.red,
+                          ),
+                        )),
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Categories(),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: CustomText(
+                      text: "Popular Foods",
+                      size: 20,
+                      color: grey,
                     ),
-                    title: TextField(
-                      decoration: InputDecoration(
-                          hintText: "Find food and restaurant",
-                          border: InputBorder.none),
-                    ),
-                    trailing: Icon(
-                      Icons.filter_list,
-                      color: Colors.red,
-                    ),
-                  )),
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            Categories(),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: CustomText(
-                text: "Popular Foods",
-                size: 20,
-                color: grey,
+                  ),
+                  PopularFood(),
+                  FeaturedRestaurant(),
+                ],
               ),
             ),
-            PopularFood(),
-            FeaturedRestaurant(),
-          ],
-        ),
-      ),
       bottomNavigationBar: Container(
         height: 85,
         color: white,

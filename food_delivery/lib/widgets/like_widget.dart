@@ -4,7 +4,7 @@ import 'package:food_delivery/helpers/style.dart';
 class LikeWidget extends StatelessWidget {
   final IconData icon;
 
-  const LikeWidget({this.icon});
+  const LikeWidget({@required this.icon});
 
   @override
   Widget build(BuildContext context) {

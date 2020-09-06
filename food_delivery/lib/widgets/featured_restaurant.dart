@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery/helpers/screen_navigation.dart';
 import 'package:food_delivery/helpers/style.dart';
+import 'package:food_delivery/providers/product.dart';
 import 'package:food_delivery/providers/restaurant.dart';
+import 'package:food_delivery/screens/restaurant.dart';
 import 'package:food_delivery/widgets/restaurant.dart';
 import 'package:provider/provider.dart';
 
@@ -29,7 +32,19 @@ class FeaturedRestaurant extends StatelessWidget {
                       child: RestaurantWidget(
                         restaurant: restaurant,
                       ),
-                      onTap: () {},
+                      onTap: () {
+                        final productProvider = Provider.of<ProductProvider>(
+                            context,
+                            listen: false);
+                        productProvider.loadProductsByRestaurant(
+                            restaurantId: restaurant.id);
+
+                        navigateTo(
+                            context,
+                            RestaurantScreen(
+                              restaurantModel: restaurant,
+                            ));
+                      },
                     ))
                 .toList(),
           ),

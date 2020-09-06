@@ -24,6 +24,8 @@ class PopularFood extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           itemCount: productProvider.products.length,
           itemBuilder: (_, index) {
+            var product = productProvider.products[index];
+
             return Padding(
                 padding: EdgeInsets.fromLTRB(12, 14, 16, 12),
                 child: GestureDetector(
@@ -31,7 +33,7 @@ class PopularFood extends StatelessWidget {
                     navigateTo(
                         _,
                         ProductDetails(
-                          product: productProvider.products[index],
+                          product: product,
                         ));
                   },
                   child: Container(
@@ -62,7 +64,7 @@ class PopularFood extends StatelessWidget {
                               Center(
                                 child: FadeInImage.memoryNetwork(
                                   placeholder: kTransparentImage,
-                                  image: productProvider.products[index].image,
+                                  image: product.image,
                                   height: 126,
                                 ),
                               )
@@ -75,8 +77,7 @@ class PopularFood extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: CustomText(
-                                text: productProvider.products[index].name ??
-                                    "id null",
+                                text: product.name ?? "id null",
                               ),
                             ),
                             Padding(
@@ -111,8 +112,7 @@ class PopularFood extends StatelessWidget {
                                 Padding(
                                   padding: const EdgeInsets.only(left: 8.0),
                                   child: CustomText(
-                                    text: productProvider.products[index].rating
-                                        .toString(),
+                                    text: product.rating.toString(),
                                     color: grey,
                                     size: 14.0,
                                   ),
@@ -145,8 +145,7 @@ class PopularFood extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.only(right: 8.0),
                               child: CustomText(
-                                text:
-                                    "\$${productProvider.products[index].price / 100}",
+                                text: "\$${product.price}",
                                 weight: FontWeight.bold,
                               ),
                             ),
