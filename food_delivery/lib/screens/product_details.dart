@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery/helpers/screen_navigation.dart';
 import 'package:food_delivery/helpers/style.dart';
 import 'package:food_delivery/models/product.dart';
+import 'package:food_delivery/providers/app.dart';
+import 'package:food_delivery/providers/auth.dart';
+import 'package:food_delivery/screens/cart.dart';
 import 'package:food_delivery/widgets/custom_text.dart';
+import 'package:food_delivery/widgets/loading.dart';
+import 'package:provider/provider.dart';
 
 class ProductDetails extends StatefulWidget {
   final ProductModel product;
@@ -14,9 +20,15 @@ class ProductDetails extends StatefulWidget {
 
 class _ProductDetailsState extends State<ProductDetails> {
   int quantity = 1;
+  final _key = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
+    final authProvider = Provider.of<AuthProvider>(context);
+    final app = Provider.of<AppProvider>(context);
+
     return Scaffold(
+      key: _key,
       appBar: AppBar(
         iconTheme: IconThemeData(color: black),
         backgroundColor: white,
@@ -24,7 +36,9 @@ class _ProductDetailsState extends State<ProductDetails> {
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.shopping_cart),
-            onPressed: () {},
+            onPressed: () {
+              navigateTo(context, CartScreen());
+            },
           ),
         ],
         leading: IconButton(
@@ -85,20 +99,32 @@ class _ProductDetailsState extends State<ProductDetails> {
                       }),
                 ),
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () async {
+                    app.changeLoading();
+                    bool value = await authProvider.addToCart(
+                        product: widget.product, quantity: quantity);
+                    app.changeLoading();
+                    if (value) {
+                      _key.currentState.showSnackBar(
+                          SnackBar(content: Text("Added to cart!")));
+                    }
+                    authProvider.reloadUserModel();
+                  },
                   child: Container(
                     decoration: BoxDecoration(
                         color: primary,
                         borderRadius: BorderRadius.circular(20)),
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(28, 12, 28, 12),
-                      child: CustomText(
-                        text: "Add $quantity To Cart",
-                        color: white,
-                        size: 22,
-                        weight: FontWeight.w300,
-                      ),
-                    ),
+                    child: app.isLoading
+                        ? Loading()
+                        : Padding(
+                            padding: const EdgeInsets.fromLTRB(28, 12, 28, 12),
+                            child: CustomText(
+                              text: "Add $quantity To Cart",
+                              color: white,
+                              size: 22,
+                              weight: FontWeight.w300,
+                            ),
+                          ),
                   ),
                 ),
                 Padding(

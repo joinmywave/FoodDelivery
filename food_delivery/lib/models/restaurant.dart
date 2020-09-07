@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class RestaurantModel {
-  static const ID = "id";
+  static const ID = "Id";
   static const NAME = "name";
   static const AVERAGEPRICE = "averagePrice";
   static const RATING = "rating";

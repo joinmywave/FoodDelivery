@@ -44,7 +44,9 @@ class _HomeState extends State<Home> {
             children: <Widget>[
               IconButton(
                 icon: Icon(Icons.shopping_cart),
-                onPressed: () {},
+                onPressed: () {
+                  navigateTo(context, CartScreen());
+                },
               ),
               Positioned(
                 top: 12,
@@ -261,7 +263,7 @@ class _HomeState extends State<Home> {
                   image: "shopping-bag.png",
                   name: "Bag",
                   onTap: () {
-                    navigateTo(context, Cart());
+                    navigateTo(context, CartScreen());
                   }),
               BottomNavIcon(
                 image: "avatar.png",

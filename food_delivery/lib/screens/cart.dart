@@ -1,212 +1,316 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery/helpers/style.dart';
+import 'package:food_delivery/models/cart_Item.dart';
+import 'package:food_delivery/models/order.dart';
 import 'package:food_delivery/models/product.dart';
+import 'package:food_delivery/providers/app.dart';
+import 'package:food_delivery/providers/auth.dart';
+import 'package:food_delivery/services/order_service.dart';
 import 'package:food_delivery/widgets/custom_text.dart';
+import 'package:food_delivery/widgets/loading.dart';
+import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 
-class Cart extends StatefulWidget {
-  Cart({Key key}) : super(key: key);
+class CartScreen extends StatefulWidget {
+  CartScreen({Key key}) : super(key: key);
 
   @override
-  _CartState createState() => _CartState();
+  _CartScreenState createState() => _CartScreenState();
 }
 
-class _CartState extends State<Cart> {
-  ProductModel product;
+class _CartScreenState extends State<CartScreen> {
+  final _key = GlobalKey<ScaffoldState>();
+  OrderServices _orderServices = OrderServices();
+
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<AuthProvider>(context);
+    final app = Provider.of<AppProvider>(context);
+
     return Scaffold(
+      key: _key,
       appBar: AppBar(
         iconTheme: IconThemeData(color: black),
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back_ios,
-            color: black,
-          ),
-          onPressed: null,
-        ),
         backgroundColor: white,
-        elevation: 0,
-        centerTitle: true,
-        title: CustomText(
-          text: "Shopping Bag",
-        ),
-        actions: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(top: 8.0),
-            child: Stack(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Image.asset(
-                    "images/shopping-bag.png",
-                    width: 20,
-                    height: 20,
-                  ),
-                ),
-                Positioned(
-                  right: 7,
-                  bottom: 5,
-                  child: Container(
-                      decoration: BoxDecoration(
-                          color: white,
-                          borderRadius: BorderRadius.circular(10),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey[400],
-                              offset: Offset(2, 1),
-                              blurRadius: 3,
-                            )
-                          ]),
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                        child: CustomText(
-                          text: "2",
-                          color: red,
-                          size: 16,
-                          weight: FontWeight.bold,
-                        ),
-                      )),
-                )
-              ],
-            ),
-          ),
-        ],
+        elevation: 0.0,
+        title: CustomText(text: "Shopping Cart"),
+        leading: IconButton(
+            icon: Icon(Icons.close),
+            onPressed: () {
+              Navigator.pop(context);
+            }),
       ),
       backgroundColor: white,
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Align(
-                alignment: Alignment.topLeft,
-                child: CustomText(
-                  text: "Your Food Cart",
-                  size: 20,
-                  weight: FontWeight.w600,
-                ),
-              ),
-            ),
-            Container(
-              height: 300,
-              child: ListView.builder(
-                itemCount: 1,
-                itemBuilder: (BuildContext context, int index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      decoration: BoxDecoration(
+      body: app.isLoading
+          ? Loading()
+          : ListView.builder(
+              itemCount: user.userModel.cart.length,
+              itemBuilder: (_, index) {
+                print("THE PRICE IS: ${user.userModel.cart[index].price}");
+                print(
+                    "THE QUANTITY IS: ${user.userModel.cart[index].quantity}");
+
+                return Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Container(
+                    height: 120,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
                         color: white,
                         boxShadow: [
                           BoxShadow(
-                              color: Colors.red[50],
-                              offset: Offset(3, 5),
-                              blurRadius: 30),
-                        ],
-                      ),
-                      child: CustomListItem(
-                        thumbnail: Image.asset(
-                          "images/${product.image}",
-                          height: 120,
-                          width: 120,
+                              color: red.withOpacity(0.2),
+                              offset: Offset(3, 2),
+                              blurRadius: 30)
+                        ]),
+                    child: Row(
+                      children: <Widget>[
+                        ClipRRect(
+                          borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(20),
+                            topLeft: Radius.circular(20),
+                          ),
+                          child: Image.network(
+                            user.userModel.cart[index].image,
+                            height: 120,
+                            width: 140,
+                            fit: BoxFit.fill,
+                          ),
                         ),
-                        title: product.name,
-                        price: "\$" + product.price.toString(),
-                        quantity: 2,
-                      ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Expanded(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              RichText(
+                                text: TextSpan(children: [
+                                  TextSpan(
+                                      text: user.userModel.cart[index].name +
+                                          "\n",
+                                      style: TextStyle(
+                                          color: black,
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold)),
+                                  TextSpan(
+                                      text:
+                                          "\$${user.userModel.cart[index].price} \n\n",
+                                      style: TextStyle(
+                                          color: black,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w300)),
+                                  TextSpan(
+                                      text: "Quantity: ",
+                                      style: TextStyle(
+                                          color: grey,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w400)),
+                                  TextSpan(
+                                      text: user.userModel.cart[index].quantity
+                                          .toString(),
+                                      style: TextStyle(
+                                          color: primary,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w400)),
+                                ]),
+                              ),
+                              IconButton(
+                                  icon: Icon(
+                                    Icons.delete,
+                                    color: red,
+                                  ),
+                                  onPressed: () async {
+                                    app.changeLoading();
+                                    bool value = await user.removeFromCart(
+                                        cartItem: user.userModel.cart[index]);
+                                    if (value) {
+                                      print("Item added to cart");
+                                      _key.currentState.showSnackBar(SnackBar(
+                                          content: Text("Removed from Cart!")));
+                                      user.reloadUserModel();
+                                      app.changeLoading();
+                                      return;
+                                    } else {
+                                      print("ITEM WAS NOT REMOVED");
+                                      app.changeLoading();
+                                    }
+                                  })
+                            ],
+                          ),
+                        )
+                      ],
                     ),
-                  );
-                },
+                  ),
+                );
+              }),
+      bottomNavigationBar: Container(
+        height: 70,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              RichText(
+                text: TextSpan(children: [
+                  TextSpan(
+                      text: "Total: ",
+                      style: TextStyle(
+                          color: grey,
+                          fontSize: 22,
+                          fontWeight: FontWeight.w400)),
+                  TextSpan(
+                      text:
+                          "\$${user.userModel.totalCartPrice.toStringAsFixed(2)}",
+                      style: TextStyle(
+                          color: primary,
+                          fontSize: 22,
+                          fontWeight: FontWeight.normal)),
+                ]),
               ),
-            ),
-          ],
+              Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20), color: primary),
+                child: FlatButton(
+                    onPressed: () {
+                      if (user.userModel.totalCartPrice == 0) {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return Dialog(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(
+                                        20.0)), //this right here
+                                child: Container(
+                                  height: 200,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(12.0),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: <Widget>[
+                                            Text(
+                                              'Your cart is emty',
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              );
+                            });
+                        return;
+                      }
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return Dialog(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(
+                                      20.0)), //this right here
+                              child: Container(
+                                height: 200,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(12.0),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'You will be charged \$${user.userModel.totalCartPrice.toStringAsFixed(2)} upon delivery!',
+                                        textAlign: TextAlign.center,
+                                      ),
+                                      SizedBox(
+                                        width: 320.0,
+                                        child: RaisedButton(
+                                          onPressed: () async {
+                                            var uuid = Uuid();
+                                            String id = uuid.v4();
+                                            _orderServices.createOrder(
+                                                id: id,
+                                                orderModel: OrderModel(
+                                                    id: id,
+                                                    userId: user.user.uid,
+                                                    description:
+                                                        "Some random description",
+                                                    status: "complete",
+                                                    orderTotal: user.userModel
+                                                        .totalCartPrice,
+                                                    createdAt: DateTime.now()
+                                                        .millisecondsSinceEpoch,
+                                                    cart: user.userModel.cart));
+                                            for (CartItemModel cartItem
+                                                in user.userModel.cart) {
+                                              bool value =
+                                                  await user.removeFromCart(
+                                                      cartItem: cartItem);
+                                              if (value) {
+                                                _key.currentState.showSnackBar(
+                                                  SnackBar(
+                                                    content: Text(
+                                                        "success order id : $id !"),
+                                                  ),
+                                                );
+                                              } else {
+                                                print("ITEM WAS NOT REMOVED");
+                                                app.changeLoading();
+                                              }
+                                            }
+                                            user.reloadUserModel();
+
+                                            _key.currentState.showSnackBar(
+                                                SnackBar(
+                                                    content: Text(
+                                                        "Order created!")));
+                                            Navigator.pop(context);
+                                          },
+                                          child: Text(
+                                            "Accept",
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          ),
+                                          color: const Color(0xFF1BC0C5),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 320.0,
+                                        child: RaisedButton(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: Text(
+                                              "Reject",
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                            ),
+                                            color: red),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            );
+                          });
+                    },
+                    child: CustomText(
+                      text: "Check out",
+                      size: 20,
+                      color: white,
+                      weight: FontWeight.normal,
+                    )),
+              )
+            ],
+          ),
         ),
-      ),
-    );
-  }
-}
-
-class CustomListItem extends StatelessWidget {
-  const CustomListItem({
-    this.thumbnail,
-    this.title,
-    this.price,
-    this.quantity,
-  });
-
-  final Widget thumbnail;
-  final String title;
-  final String price;
-  final int quantity;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5.0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Expanded(
-            flex: 2,
-            child: thumbnail,
-          ),
-          Expanded(
-            flex: 3,
-            child: _ProductDescription(
-              title: title,
-              price: price,
-              quantity: quantity,
-            ),
-          ),
-          const IconButton(
-            icon: Icon(Icons.delete),
-            onPressed: null,
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _ProductDescription extends StatelessWidget {
-  const _ProductDescription({
-    Key key,
-    this.title,
-    this.price,
-    this.quantity,
-  }) : super(key: key);
-
-  final String title;
-  final String price;
-  final int quantity;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            title,
-            style: const TextStyle(
-              fontWeight: FontWeight.w500,
-              fontSize: 20.0,
-            ),
-          ),
-          const Padding(padding: EdgeInsets.symmetric(vertical: 2.0)),
-          Text(
-            price,
-            style: const TextStyle(fontSize: 15.0),
-          ),
-          const Padding(padding: EdgeInsets.symmetric(vertical: 1.0)),
-          Text(
-            '$quantity quantity',
-            style: const TextStyle(fontSize: 10.0),
-          ),
-        ],
       ),
     );
   }
