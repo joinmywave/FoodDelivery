@@ -245,8 +245,7 @@ class _CartScreenState extends State<CartScreen> {
                                                     status: "complete",
                                                     orderTotal: user.userModel
                                                         .totalCartPrice,
-                                                    createdAt: DateTime.now()
-                                                        .millisecondsSinceEpoch,
+                                                    createdAt: DateTime.now(),
                                                     cart: user.userModel.cart));
                                             for (CartItemModel cartItem
                                                 in user.userModel.cart) {

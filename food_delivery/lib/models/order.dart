@@ -17,7 +17,7 @@ class OrderModel {
   String userId;
   double orderTotal;
   String status;
-  int createdAt;
+  DateTime createdAt;
   List<Map<String, dynamic>> get cartMapped => _convertCartListToMap();
   OrderModel(
       {this.id,
