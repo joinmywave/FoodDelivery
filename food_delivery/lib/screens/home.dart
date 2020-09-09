@@ -6,6 +6,7 @@ import 'package:food_delivery/providers/auth.dart';
 import 'package:food_delivery/providers/product.dart';
 import 'package:food_delivery/providers/restaurant.dart';
 import 'package:food_delivery/screens/login_screen.dart';
+import 'package:food_delivery/screens/order.dart';
 import 'package:food_delivery/screens/product_Search.dart';
 import 'package:food_delivery/screens/restaurants_search.dart';
 import 'package:food_delivery/widgets/botttom_navigation_icon.dart';
@@ -112,7 +113,10 @@ class _HomeState extends State<Home> {
               title: CustomText(text: "Favourite restaurants"),
             ),
             ListTile(
-              onTap: () {},
+              onTap: () async {
+                await authProvider.getOrders();
+                navigateTo(context, OrdersScreen());
+              },
               leading: Icon(Icons.bookmark_border),
               title: CustomText(text: "My orders"),
             ),
