@@ -1,6 +1,6 @@
-Id: 1
+Id: '1'
 rating: 4.1
-restaurantId: 3
+restaurantId: '3'
 name: Falafel
 restaurant: Falafel Factory
 featured: true

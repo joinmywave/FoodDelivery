@@ -16,7 +16,7 @@ const update = async(folder, name) => {
 
     if (snapshot.empty) {
         const id = JSON.stringify(json["Id"]);
-        await ref.doc(id).set(json, { merge: true });
+        await ref.doc(id.replace(/['"]+/g, '')).set(json, { merge: true });
         console.log('added ', json["Id"], '=>', JSON.stringify(json));
         return;
     }
@@ -31,10 +31,10 @@ const update = async(folder, name) => {
 
 const categories = [
     'Chinese',
-    'fastfood',
+    'Fastfood',
     'Indian',
     'Italian',
-    'seafood'
+    'Seafood'
 ]
 const products = [
     'Falafel', 'Noodles', 'Tacos'

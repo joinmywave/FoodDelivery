@@ -6,8 +6,6 @@ admin.initializeApp({
     credential: admin.credential.cert(require('./credentials.json')),
 });
 const db = admin.firestore();
-
-
 const toFile = async(folder, name) => {
 
     const ref = db.collection(folder);
@@ -15,8 +13,6 @@ const toFile = async(folder, name) => {
     //const ref = db.collection('restaurants').doc(id);
 
     const snapshot = await ref.where('name', '==', name).get();
-
-
     if (snapshot.empty) {
         console.log('No matching documents.');
         return;
@@ -25,28 +21,29 @@ const toFile = async(folder, name) => {
     snapshot.forEach(async(doc) => {
         console.log(doc.id, '=>', doc.data());
         const str = yaml.stringify(doc.data(), 8);
-
         await fs.outputFile(`${folder}/${name}.yaml`, str);
     });
     // await fs.outputFile(`products/${id}.yaml`, str);
     // await fs.outputFile(`restaurants/${id}.yaml`, str);
 
     console.log('DONE')
-
 }
 
 const categories = [
-    'Indian',
     'Chinese',
-    'Italian'
+    'Fastfood',
+    'Indian',
+    'Italian',
+    'Seafood'
 ]
 const products = [
-    'Noodles'
+    'Falafel', 'Noodles', 'Tacos'
 ]
 const restaurants = [
     'Burger Shack',
-    'Pancake King',
-    'China Palace Restaurant'
+    'China Palace Restaurant',
+    "Falafel Factory",
+    'Pancake King'
 ]
 
 for (const x of categories) {
