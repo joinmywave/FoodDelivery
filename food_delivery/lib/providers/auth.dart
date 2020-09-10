@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:food_delivery/models/cart_Item.dart';
+import 'package:food_delivery/models/order.dart';
 import 'package:food_delivery/models/product.dart';
 import 'package:food_delivery/models/user_model.dart';
+import 'package:food_delivery/services/order_service.dart';
 import 'package:food_delivery/services/user_service.dart';
 import 'package:uuid/uuid.dart';
 
@@ -17,12 +19,14 @@ class AuthProvider with ChangeNotifier {
   Status _status = Status.Uninitialized;
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
   UserServices _userServices = UserServices();
+  OrderServices _orderServices = OrderServices();
   UserModel _userModel;
 
 //  getter
   UserModel get userModel => _userModel;
   Status get status => _status;
   User get user => _user;
+  List<OrderModel> orders = [];
 
   final formkey = GlobalKey<FormState>();
 
@@ -141,6 +145,11 @@ class AuthProvider with ChangeNotifier {
       print("THE ERROR ${e.toString()}");
       return false;
     }
+  }
+
+  getOrders() async {
+    orders = await _orderServices.getUserOrders(userId: _user.uid);
+    notifyListeners();
   }
 
   Future<bool> removeFromCart({CartItemModel cartItem}) async {

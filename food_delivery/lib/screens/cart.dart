@@ -271,6 +271,7 @@ class _CartScreenState extends State<CartScreen> {
                                                     content: Text(
                                                         "Order created!")));
                                             Navigator.pop(context);
+                                            Navigator.pop(context);
                                           },
                                           child: Text(
                                             "Accept",

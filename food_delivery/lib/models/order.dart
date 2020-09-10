@@ -5,7 +5,7 @@ class OrderModel {
   static const ID = "Id";
   static const DESCRIPTION = "description";
   static const PRODUCT_ID = "productId";
-  static const User_ID = "usrId";
+  static const User_ID = "userId";
   static const ORDER_TOTAL = "orderTotal";
   static const STATUS = "status";
   static const CREATED_AT = "createdAt";
@@ -39,7 +39,7 @@ class OrderModel {
     orderTotal = map[ORDER_TOTAL];
     status = map[STATUS];
     cart = _convertCartItems(map[CART] ?? []);
-    createdAt = map[CREATED_AT];
+    createdAt = map[CREATED_AT].toDate();
   }
 
   OrderModel.fromSnapshot(DocumentSnapshot snapshot)
