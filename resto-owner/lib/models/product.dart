@@ -16,14 +16,13 @@ class ProductModel {
 
   String _id;
   String _name;
-  int _restaurantId;
+  String _restaurantId;
   String _restaurant;
   String _category;
   String _image;
   String _description;
-
   double _rating;
-  int _price;
+  double _price;
   int _rates;
 
   bool _featured;
@@ -34,7 +33,7 @@ class ProductModel {
 
   String get restaurant => _restaurant;
 
-  int get restaurantId => _restaurantId;
+  String get restaurantId => _restaurantId;
 
   String get category => _category;
 
@@ -44,7 +43,7 @@ class ProductModel {
 
   double get rating => _rating;
 
-  int get price => _price;
+  double get price => _price;
 
   bool get featured => _featured;
 

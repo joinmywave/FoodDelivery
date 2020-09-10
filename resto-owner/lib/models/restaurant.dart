@@ -21,19 +21,12 @@ class RestaurantModel {
 
 //  getters
   int get id => _id;
-
   String get name => _name;
-
   String get image => _image;
-
   List<String> get userLikes => _userLikes;
-
   double get avgPrice => _avgPrice;
-
   double get rating => _rating;
-
   bool get popular => _popular;
-
   int get rates => _rates;
 
   // public variable

@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:food_delivery/models/order.dart';
+import 'package:food_delivery/models/restaurant.dart';
 import 'package:food_delivery/services/order.dart';
+import 'package:food_delivery/services/restaurant.dart';
 
 enum Status { Uninitialized, Authenticated, Authenticating, Unauthenticated }
 
@@ -14,10 +16,12 @@ class UserProvider with ChangeNotifier {
   Status _status = Status.Uninitialized;
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
   OrderServices _orderServices = OrderServices();
-
+  RestaurantServices _restaurantServices = RestaurantServices();
+  RestaurantModel _restaurantModel;
 //  getter
   Status get status => _status;
   User get user => _user;
+  RestaurantModel get restaurants => _restaurantModel;
 
   // public variables
   List<OrderModel> orders = [];
@@ -55,12 +59,15 @@ class UserProvider with ChangeNotifier {
           .createUserWithEmailAndPassword(
               email: email.text.trim(), password: password.text.trim())
           .then((result) {
-        _firestore.collection('users').doc(result.user.uid).set({
+        _firestore.collection('restaurants').doc(result.user.uid).set({
           'name': name.text,
           'email': email.text,
           'uid': result.user.uid,
-          "likedFood": [],
-          "likedRestaurants": []
+          "avgPrice": 0.0,
+          "image": "",
+          "popular": false,
+          "rates": 0,
+          "rating": 0.0
         });
       });
       return true;
@@ -85,10 +92,11 @@ class UserProvider with ChangeNotifier {
     email.text = "";
   }
 
-//  Future<void> reloadUserModel()async{
-//    _userModel = await _userServicse.getUserById(user.uid);
-//    notifyListeners();
-//  }
+  Future<void> reloadUserModel() async {
+    _restaurantModel =
+        await _restaurantServices.getRestaurantById(id: user.uid);
+    notifyListeners();
+  }
 
   Future<void> _onStateChanged(User firebaseUser) async {
     if (firebaseUser == null) {
@@ -96,7 +104,8 @@ class UserProvider with ChangeNotifier {
     } else {
       _user = firebaseUser;
       _status = Status.Authenticated;
-//      _userModel = await _userServicse.getUserById(user.uid);
+      _restaurantModel =
+          await _restaurantServices.getRestaurantById(id: user.uid);
     }
     notifyListeners();
   }
